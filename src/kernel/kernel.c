@@ -28,14 +28,20 @@ unsigned int src_kernel_programtest_bin_len = 40;
 // DEFINE THE KERNEL_MAIN FUNCTION (THE START OF OUR C KERNEL)
 void kernel_main() {
 
-	static unsigned char exec_buffer[256];
+	// BINARY LOADER
 
+	static unsigned char exec_buffer[256]; // CODE SECTION (.text)
+
+	// COPY THE BYTES TO THE RAM (TO THE EXEC_BUFFER (.text))
 	memcpy(exec_buffer, src_kernel_programtest_bin, src_kernel_programtest_bin_len);
 
+	// DEFINE THE ENTRY
 	void (*entry)(void) = (void (*)(void))exec_buffer;
 
+	// EXECUTE THE NASM CODE
 	entry();
 
+	// INFINITE LOOP
 	for(;;) {}
 
 	/*
